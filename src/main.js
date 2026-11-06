@@ -37,9 +37,15 @@ const input = new InputController({
   pause: togglePause,
 });
 
+const DEFAULT_RECIPIENT = 'mi niña 💗';
+
+// `?para=Nombre` overrides the default dedication.
+function recipient() {
+  return new URLSearchParams(location.search).get('para')?.trim().slice(0, 30) || DEFAULT_RECIPIENT;
+}
+
 function dedication() {
-  const name = new URLSearchParams(location.search).get('para')?.trim().slice(0, 30);
-  return name ? `Hecho con cariño para ${name} ♥` : 'Hecho con cariño ♥';
+  return `Para ${recipient()}`;
 }
 
 function showStart() {
@@ -67,7 +73,7 @@ function showGameOver({ score, lines, level }) {
   }
   ui.showOverlay({
     title: isRecord ? '¡Nuevo récord!' : 'Fin del juego',
-    text: isRecord ? 'Lo hiciste increíble ♥' : 'Sigue intentando, ¡tú puedes!',
+    text: isRecord ? 'Lo hiciste increíble 💗' : 'Sigue intentando, ¡tú puedes!',
     stats: [`Puntos: ${score.toLocaleString('es')}`, `Líneas: ${lines}`, `Nivel: ${level}`],
     primary: { label: 'Jugar de nuevo', onClick: startGame },
   });

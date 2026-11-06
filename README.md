@@ -4,7 +4,7 @@ Un juego de bloques que caen, hecho con cariño. HTML, CSS y JavaScript puro: si
 
 ## Jugar
 
-Abre la URL publicada. Para dedicarlo con un nombre: `https://<usuario>.github.io/bloquitos/?para=Nombre`.
+Abre la URL publicada. La dedicatoria por defecto es "Para mi niña 💗" (`DEFAULT_RECIPIENT` en `src/main.js`); para otro nombre: `?para=Nombre`.
 
 En el celular: menú del navegador → "Agregar a pantalla de inicio" y se abre como una app.
 
