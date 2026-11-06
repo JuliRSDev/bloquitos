@@ -1,0 +1,11 @@
+{
+  "name": "bloquitos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Un juego de bloques que caen, hecho con cariño.",
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "start": "node scripts/serve.js"
+  }
+}

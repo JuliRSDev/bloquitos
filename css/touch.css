@@ -1,0 +1,55 @@
+/* On-screen controls: shown on phones/tablets, hidden when a mouse is the main pointer. */
+.touch {
+  display: grid;
+  grid-template-columns: 1fr 1fr 16px 1fr 1fr;
+  gap: 8px;
+  flex: none;
+}
+.touch .tbtn:nth-child(3) { grid-column: 4; }
+.touch .tbtn:nth-child(4) { grid-column: 5; }
+.touch .tbtn:nth-child(5) { grid-column: 1 / span 2; }
+.touch .tbtn:nth-child(6) { grid-column: 4 / span 2; }
+
+.tbtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 58px;
+  padding: 0;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  touch-action: none;
+  cursor: pointer;
+  transition: transform 0.06s, background 0.06s;
+}
+.tbtn svg { width: 26px; height: 26px; fill: currentColor; }
+.tbtn svg .stroke { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.tbtn svg.flip { transform: scaleX(-1); }
+.tbtn-accent {
+  color: #2a0d2e;
+  background: linear-gradient(135deg, #ff9ccc, #ff7ab8);
+  border: none;
+}
+.tbtn.is-down { transform: scale(0.94); background: rgba(255, 255, 255, 0.25); }
+.tbtn-accent.is-down { background: #ffb3d9; }
+
+@media (min-width: 900px) and (min-height: 560px) and (pointer: fine) {
+  .touch { display: none; }
+}
+
+/* Short phones: tighter chrome so the board stays big. */
+@media (max-height: 700px) and (pointer: coarse) {
+  :root { --chrome-h: 318px; }
+  .tbtn { height: 50px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sky, .sky::before { animation: none; }
+  .board-wrap.is-shaking, .callout.is-show { animation-duration: 0.01s; }
+}

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Bloquitos</title>
+  <meta name="description" content="Bloquitos: un juego de bloques que caen, hecho con cariño.">
+  <meta name="theme-color" content="#120d2b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Bloquitos">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/touch.css">
+  <script type="module" src="src/main.js"></script>
+</head>
+<body>
+  <div class="sky" aria-hidden="true"></div>
+
+  <main id="app" class="app">
+    <header class="topbar">
+      <h1 class="logo">Bloquitos</h1>
+      <div class="topbar-buttons">
+        <button id="btn-music" class="icon-btn" type="button" aria-label="Quitar música" aria-pressed="true">♪</button>
+        <button id="btn-sound" class="icon-btn" type="button" aria-label="Silenciar sonido" aria-pressed="true">🔊</button>
+        <button id="btn-pause" class="icon-btn" type="button" data-action="pause" aria-label="Pausa" tabindex="-1">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <button class="panel panel-hold" type="button" data-action="hold" aria-label="Guardar pieza" tabindex="-1">
+        <span class="panel-title">Guardar</span>
+        <canvas id="hold" role="img" aria-label="Pieza guardada"></canvas>
+      </button>
+
+      <div class="panel panel-next">
+        <span class="panel-title">Siguiente</span>
+        <canvas id="next" role="img" aria-label="Próximas piezas"></canvas>
+      </div>
+
+      <div class="panel panel-stats">
+        <dl class="stat stat-score"><dt>Puntos</dt><dd id="score">0</dd></dl>
+        <dl class="stat"><dt>Nivel</dt><dd id="level">1</dd></dl>
+        <dl class="stat"><dt>Líneas</dt><dd id="lines">0</dd></dl>
+        <dl class="stat"><dt>Récord</dt><dd id="best">0</dd></dl>
+      </div>
+
+      <div id="board-wrap" class="board-wrap">
+        <canvas id="board" role="img" aria-label="Tablero de juego"></canvas>
+        <div id="callout" class="callout" aria-live="polite"></div>
+
+        <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="overlay-title" hidden>
+          <h2 id="overlay-title" class="overlay-title"></h2>
+          <p id="overlay-text" class="overlay-text"></p>
+          <ul id="overlay-stats" class="overlay-stats"></ul>
+          <div id="overlay-help" class="overlay-help" hidden>
+            <p class="help-touch">Mueve y gira con los botones de abajo.<br>Toca <b>Guardar</b> para reservar una pieza.</p>
+            <p class="help-keys">
+              <kbd>←</kbd><kbd>→</kbd> mover · <kbd>↑</kbd> girar · <kbd>Z</kbd> girar al revés<br>
+              <kbd>↓</kbd> bajar · <kbd>Espacio</kbd> caer · <kbd>C</kbd> guardar · <kbd>P</kbd> pausa
+            </p>
+          </div>
+          <div class="overlay-actions">
+            <button id="overlay-primary" class="btn btn-primary" type="button">Jugar</button>
+            <button id="overlay-secondary" class="btn" type="button" hidden>Reiniciar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="touch" aria-label="Controles táctiles">
+      <button class="tbtn" data-action="left" aria-label="Izquierda" tabindex="-1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 4.5 6.5 12l9 7.5z"/></svg>
+      </button>
+      <button class="tbtn" data-action="right" aria-label="Derecha" tabindex="-1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 4.5 17.5 12l-9 7.5z"/></svg>
+      </button>
+      <button class="tbtn" data-action="rotateCCW" aria-label="Girar a la izquierda" tabindex="-1">
+        <svg viewBox="0 0 24 24" class="flip" aria-hidden="true"><path class="stroke" d="M18.5 12a6.5 6.5 0 1 1-2-4.7"/><path d="M19.5 3v6.5H13z"/></svg>
+      </button>
+      <button class="tbtn" data-action="rotateCW" aria-label="Girar" tabindex="-1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="stroke" d="M18.5 12a6.5 6.5 0 1 1-2-4.7"/><path d="M19.5 3v6.5H13z"/></svg>
+      </button>
+      <button class="tbtn tbtn-wide" data-action="down" aria-label="Bajar" tabindex="-1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5 12 17l7-8.5z"/></svg>
+      </button>
+      <button class="tbtn tbtn-wide tbtn-accent" data-action="hardDrop" aria-label="Caer de golpe" tabindex="-1">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="stroke" d="m6 5.5 6 5.5 6-5.5M6 12.5l6 5.5 6-5.5"/><path d="M5 20h14"/></svg>
+        <span>Caer</span>
+      </button>
+    </nav>
+  </main>
+</body>
+</html>
